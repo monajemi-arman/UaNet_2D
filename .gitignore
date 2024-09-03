@@ -1,4 +1,5 @@
 results/*
+src/results/*
 *.pyc
 *.so
 .ipynb_checkpoints/*
