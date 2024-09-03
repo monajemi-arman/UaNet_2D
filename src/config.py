@@ -36,10 +36,7 @@ data_config = {
     'data_dir': '../data/raw',
     'preprocessed_data_dir': '../data/preprocessed',
     # 28 OAR names, names from the original dicom RT
-    'roi_names': ['Brachial Plexus', 'Brain Stem', 'ConstrictorNaris', 'Ear-L', 'Ear-R', 'Eye-L', 'Eye-R',
-        'Hypophysis', 'Larynx', 'Lens L', 'Lens R', 'Mandible', 'Optical Chiasm', 'Optical Nerve L',
-        'Optical Nerve R', 'Oral Cavity', 'Parotid L', 'Parotid R', 'SmgL', 'SmgR', 'Spinal Cord',
-        'Sublingual Gland', 'Temporal Lobe L', 'Temporal Lobe R', 'Thyroid', 'TMJL', 'TMJR', 'Trachea'],
+    'roi_names': ['mass'],
     
     # name used for legend for the figures in the paper, for better consistency
     'paper_roi_names': ['Brachial Plexus', 'Brain Stem', 'Constrictor Naris', 'Ear L', 'Ear R', 'Eye L', 'Eye R',
@@ -53,19 +50,19 @@ data_config = {
     # since the max input would be centered at the image with size train_max_crop_size,
     # there is no need to load more than that.
     'num_slice': 180,
-    'num_x': 272,
-    'num_y': 272,
+    'num_x': 544,
+    'num_y': 544,
 
     # maximum input size to the network
-    'train_max_crop_size': [160, 240, 240], 
+    'train_max_crop_size': [160, 512, 512],
     'bbox_border': 8,
-    'pad_value': -1024,
-    'jitter_range': [4, 16, 16],
-    'stride': [16, 32, 32],
-    'test_max_size': [256, 320, 320], 
+    'pad_value': -1,
+    'jitter_range': [0, 0, 0],
+    'stride': [1, 3, 3],
+    'test_max_size': [256, 512, 512],
 
     # whether to do affine and elastic transformation
-    'do_elastic': True,
+    'do_elastic': False,
     'do_postprocess': False,
 }
 
@@ -146,7 +143,7 @@ def lr_shedule(epoch, init_lr=0.01, total=200):
 
 train_config = {
     'net': 'UaNet',
-    'batch_size': 1,
+    'batch_size': 16,
 
     'lr_schedule': lr_shedule,
     'optimizer': 'Adam',
@@ -154,7 +151,7 @@ train_config = {
     'weight_decay': 1e-4,
 
     # total # of epochs
-    'epochs': 200,
+    'epochs': 100,
 
     # save check point (model weights) every epoch_save epochs
     'epoch_save': 1,
@@ -166,7 +163,7 @@ train_config = {
     'epoch_mask': 45,
 
     # num_workers for data loader
-    'num_workers': 4,
+    'num_workers': 8,
 
     # training data is the combination of dataset1, dataset2 training data (A total of 215)
     # Because of the patient privacy, the access to the training data in dataset 1 
@@ -195,7 +192,7 @@ elif train_config['optimizer'] == 'RMSprop':
 
 train_config['RESULTS_DIR'] = os.path.join(train_config['ROOT_DIR'], 'results')
 train_config['out_dir'] = os.path.join(train_config['RESULTS_DIR'], 'experiment_1')
-train_config['initial_checkpoint'] = None # train_config['out_dir'] + '/model/xxx.ckpt'
+train_config['initial_checkpoint'] = train_config['out_dir'] + '/model/043.ckpt'
 
 config = dict(data_config, **net_config)
 config = dict(config, **train_config)

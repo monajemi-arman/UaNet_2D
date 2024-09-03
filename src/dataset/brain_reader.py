@@ -273,7 +273,8 @@ class Crop(object):
         max_crop_size = self.max_crop_size
 
         # Crop size according to the image size
-        img_crop_size = [int(math.ceil(d / 16.) * 16) for d in imgs.shape[1:]]
+        # img_crop_size = [int(math.ceil(d / 16.) * 16) for d in imgs.shape[1:]]
+        img_crop_size = [int(math.ceil(d / 1.) * 1) for d in imgs.shape[1:]]
 
         # Limit the largest crop size
         crop_size = [min(max_crop_size[i], img_crop_size[i]) for i in range(len(img_crop_size))]

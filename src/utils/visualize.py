@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from matplotlib import patches
 import random
 import os
-import IPython.html.widgets as w
+import ipywidgets.widgets as w
 import cv2
 import matplotlib.animation as animation
 from mpl_toolkits.axes_grid1 import make_axes_locatable

@@ -122,9 +122,6 @@ def main():
         
 
 def predict(net, input):
-    '''
-    Given trained net and torch input, return numpy mask prediction
-    '''
     net.set_mode('eval')
     net.use_rcnn = True
     net.use_mask = True
@@ -134,7 +131,6 @@ def predict(net, input):
 
     crop_boxes = net.crop_boxes
     segments = [F.sigmoid(m).cpu().numpy() > 0.5 for m in net.mask_probs]
-
     pred_mask = crop_boxes2mask(crop_boxes[:, 1:], segments, input.shape[2:])
     pred_mask = pred_mask.astype(np.uint8)
 

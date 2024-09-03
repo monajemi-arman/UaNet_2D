@@ -223,6 +223,7 @@ def train(net, train_loader, optimizer, epoch, writer):
 
         torch.cuda.empty_cache()
 
+    rpn_stats = torch.tensor(rpn_stats, dtype=torch.float32).cpu()
     rpn_stats = np.asarray(rpn_stats, np.float32)
     
     print('Train Epoch %d, iter %d, total time %f, loss %f' % (epoch, j, time.time() - s, np.average(total_loss)))
@@ -322,6 +323,7 @@ def validate(net, val_loader, epoch, writer):
         rcnn_stats.append(rcnn_stat)
         mask_stats.append(mask_stat)
 
+    rpn_stats = torch.tensor(rpn_stats, dtype=torch.float32).cpu()
     rpn_stats = np.asarray(rpn_stats, np.float32)
     print('Val Epoch %d, iter %d, total time %f, loss %f' % (epoch, j, time.time()-s, np.average(total_loss)))
     print('rpn_cls %f, rpn_reg %f, rcnn_cls %f, rcnn_reg %f, mask_loss %f' % \
