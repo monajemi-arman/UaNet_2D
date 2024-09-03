@@ -7,3 +7,7 @@ src/results/*
 *.o
 *.ipynb
 .DS_Store
+include/
+lib/
+lib64
+bin/
