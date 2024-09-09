@@ -610,6 +610,15 @@ class UaNet(nn.Module):
                           + self.rcnn_cls_loss + self.rcnn_reg_loss \
                           + self.mask_loss
 
+        if not self.use_mask:
+            self.total_loss -= self.mask_loss
+        if not self.use_rcnn:
+            self.total_loss -= self.rcnn_cls_loss + self.rcnn_reg_loss
+
+        if cfg['debug']:
+            if cfg['debug']['cls_loss_only']:
+                self.total_loss = self.rpn_cls_loss
+
         return self.total_loss, rpn_stats, rcnn_stats, mask_stats
 
     def set_mode(self, mode):

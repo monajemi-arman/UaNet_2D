@@ -1,4 +1,7 @@
 from __future__ import print_function
+
+from torch.utils.tensorboard import SummaryWriter
+
 import net.model as model
 import time
 from dataset.brain_reader import BrainReader, train_collate
@@ -72,7 +75,7 @@ def main():
     train_set_name = args.train_set_name
     val_set_name = args.val_set_name
     num_workers = args.num_workers
-    
+
     lr_schdule = train_config['lr_schedule']
 
     # Load data configuration
@@ -97,17 +100,18 @@ def main():
     start_epoch = 0
 
     if initial_checkpoint:
-        print('[Loading model from %s]' % initial_checkpoint)
-        checkpoint = torch.load(initial_checkpoint)
-        start_epoch = checkpoint['epoch']
-        state = net.state_dict()
-        state.update(checkpoint['state_dict'])
+        if input('Resume training? (Y/n): ').lower() == 'y':
+            print('[Loading model from %s]' % initial_checkpoint)
+            checkpoint = torch.load(initial_checkpoint)
+            start_epoch = checkpoint['epoch']
+            state = net.state_dict()
+            state.update(checkpoint['state_dict'])
 
-        optimizer.load_state_dict(checkpoint['optimizer'])
-        try:
-            net.load_state_dict(state)
-        except:
-            print('Load something failed!')
+            optimizer.load_state_dict(checkpoint['optimizer'])
+            try:
+                net.load_state_dict(state)
+            except:
+                print('Load something failed!')
 
     start_epoch = start_epoch + 1
 
@@ -129,12 +133,9 @@ def main():
     print('[length of train loader %d, length of valid loader %d]' % (len(train_loader), len(val_loader)))
 
     # Write graph to tensorboard for visualization
-    writer = None
-    train_writer = None
-    val_writer = None
-    # writer = SummaryWriter(tb_out_dir)
-    # train_writer = SummaryWriter(os.path.join(tb_out_dir, 'train'))
-    # val_writer = SummaryWriter(os.path.join(tb_out_dir, 'val'))
+    writer = SummaryWriter(tb_out_dir)
+    train_writer = SummaryWriter(os.path.join(tb_out_dir, 'train'))
+    val_writer = SummaryWriter(os.path.join(tb_out_dir, 'val'))
 
     for i in tqdm(range(start_epoch, epochs + 1), desc='Total'):
         # learning rate schedule

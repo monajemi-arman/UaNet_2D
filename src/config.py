@@ -87,6 +87,11 @@ bases = [7, 15, 30, 50]
 aspect_ratios = [[1, 2.5, 2.5], [1, 2.5, 5.], [1, 5., 2.5]]
 
 net_config = {
+    # For debug purposes
+    'debug': {
+        'cls_loss_only': True
+    },
+
     # Net configuration
     'anchors': get_anchors(bases, aspect_ratios),
 
