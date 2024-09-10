@@ -1,0 +1,164 @@
+* Getting build dependencies for sdist...
+Traceback (most recent call last):
+  File "/home/john/.local/lib/python3.11/site-packages/pyproject_hooks/_in_process/_in_process.py", line 353, in <module>
+    main()
+  File "/home/john/.local/lib/python3.11/site-packages/pyproject_hooks/_in_process/_in_process.py", line 335, in main
+    json_out['return_val'] = hook(**hook_input['kwargs'])
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/john/.local/lib/python3.11/site-packages/pyproject_hooks/_in_process/_in_process.py", line 287, in get_requires_for_build_sdist
+    return hook(config_settings)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/setuptools/build_meta.py", line 330, in get_requires_for_build_sdist
+    return self._get_build_requires(config_settings, requirements=[])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/setuptools/build_meta.py", line 297, in _get_build_requires
+    self.run_setup()
+  File "/usr/lib/python3/dist-packages/setuptools/build_meta.py", line 497, in run_setup
+    super().run_setup(setup_script=setup_script)
+  File "/usr/lib/python3/dist-packages/setuptools/build_meta.py", line 313, in run_setup
+    exec(code, locals())
+  File "<string>", line 4, in <module>
+  File "/usr/lib/python3/dist-packages/setuptools/__init__.py", line 103, in setup
+    return distutils.core.setup(**attrs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/setuptools/_distutils/core.py", line 146, in setup
+    _setup_distribution = dist = klass(attrs)
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/setuptools/dist.py", line 307, in __init__
+    _Distribution.__init__(self, dist_attrs)
+  File "/usr/lib/python3/dist-packages/setuptools/_distutils/dist.py", line 286, in __init__
+    self.finalize_options()
+  File "/usr/lib/python3/dist-packages/setuptools/dist.py", line 658, in finalize_options
+    for ep in sorted(loaded, key=by_order):
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/setuptools/dist.py", line 657, in <lambda>
+    loaded = map(lambda e: e.load(), filtered)
+                           ^^^^^^^^
+  File "/usr/lib/python3.11/importlib/metadata/__init__.py", line 202, in load
+    module = import_module(match.group('module'))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1126, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/john/.local/lib/python3.11/site-packages/npe2/__init__.py", line 11, in <module>
+    from ._dynamic_plugin import DynamicPlugin
+  File "/home/john/.local/lib/python3.11/site-packages/npe2/_dynamic_plugin.py", line 19, in <module>
+    from ._plugin_manager import PluginManager
+  File "/home/john/.local/lib/python3.11/site-packages/npe2/_plugin_manager.py", line 31, in <module>
+    from ._command_registry import CommandRegistry
+  File "/home/john/.local/lib/python3.11/site-packages/npe2/_command_registry.py", line 9, in <module>
+    from .manifest import utils
+  File "/home/john/.local/lib/python3.11/site-packages/npe2/manifest/__init__.py", line 2, in <module>
+    from .schema import ENTRY_POINT, PluginManifest
+  File "/home/john/.local/lib/python3.11/site-packages/npe2/manifest/schema.py", line 26, in <module>
+    from .contributions import ContributionPoints
+  File "/home/john/.local/lib/python3.11/site-packages/npe2/manifest/contributions/__init__.py", line 2, in <module>
+    from ._configuration import ConfigurationContribution, ConfigurationProperty
+  File "/home/john/.local/lib/python3.11/site-packages/npe2/manifest/contributions/_configuration.py", line 5, in <module>
+    from ._json_schema import (
+  File "/home/john/.local/lib/python3.11/site-packages/npe2/manifest/contributions/_json_schema.py", line 269, in <module>
+    class Draft07JsonSchema(_Draft06JsonSchema):
+  File "/home/john/.local/lib/python3.11/site-packages/pydantic/v1/main.py", line 286, in __new__
+    cls.__try_update_forward_refs__()
+  File "/home/john/.local/lib/python3.11/site-packages/pydantic/v1/main.py", line 807, in __try_update_forward_refs__
+    update_model_forward_refs(cls, cls.__fields__.values(), cls.__config__.json_encoders, localns, (NameError,))
+  File "/home/john/.local/lib/python3.11/site-packages/pydantic/v1/typing.py", line 559, in update_model_forward_refs
+    update_field_forward_refs(f, globalns=globalns, localns=localns)
+  File "/home/john/.local/lib/python3.11/site-packages/pydantic/v1/typing.py", line 530, in update_field_forward_refs
+    field.prepare()
+  File "/home/john/.local/lib/python3.11/site-packages/pydantic/v1/fields.py", line 550, in prepare
+    self._type_analysis()
+  File "/home/john/.local/lib/python3.11/site-packages/pydantic/v1/fields.py", line 661, in _type_analysis
+    self.sub_fields = [self._create_sub_type(t, f'{self.name}_{display_as_type(t)}') for t in types_]
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/john/.local/lib/python3.11/site-packages/pydantic/v1/fields.py", line 661, in <listcomp>
+    self.sub_fields = [self._create_sub_type(t, f'{self.name}_{display_as_type(t)}') for t in types_]
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/john/.local/lib/python3.11/site-packages/pydantic/v1/fields.py", line 806, in _create_sub_type
+    return self.__class__(
+           ^^^^^^^^^^^^^^^
+  File "/home/john/.local/lib/python3.11/site-packages/pydantic/v1/fields.py", line 434, in __init__
+    self.prepare()
+  File "/home/john/.local/lib/python3.11/site-packages/pydantic/v1/fields.py", line 555, in prepare
+    self.populate_validators()
+  File "/home/john/.local/lib/python3.11/site-packages/pydantic/v1/fields.py", line 832, in populate_validators
+    self.validators = prep_validators(v_funcs)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/john/.local/lib/python3.11/site-packages/pydantic/v1/class_validators.py", line 282, in prep_validators
+    return [make_generic_validator(f) for f in v_funcs if f]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/john/.local/lib/python3.11/site-packages/pydantic/v1/class_validators.py", line 282, in <listcomp>
+    return [make_generic_validator(f) for f in v_funcs if f]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/john/.local/lib/python3.11/site-packages/pydantic/v1/class_validators.py", line 256, in make_generic_validator
+    sig = signature(validator)
+          ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/inspect.py", line 3263, in signature
+    return Signature.from_callable(obj, follow_wrapped=follow_wrapped,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/inspect.py", line 3011, in from_callable
+    return _signature_from_callable(obj, sigcls=cls,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/inspect.py", line 2523, in _signature_from_callable
+    return _signature_from_function(sigcls, obj,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/inspect.py", line 2382, in _signature_from_function
+    for offset, name in enumerate(positional[non_default_count:]):
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/john/.local/lib/python3.11/site-packages/build/__main__.py", line 406, in <module>
+    main(sys.argv[1:], 'python -m build')
+  File "/home/john/.local/lib/python3.11/site-packages/build/__main__.py", line 388, in main
+    built = build_call(
+            ^^^^^^^^^^^
+  File "/home/john/.local/lib/python3.11/site-packages/build/__main__.py", line 239, in build_package_via_sdist
+    sdist = _build(isolation, srcdir, outdir, 'sdist', config_settings, skip_dependency_check)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/john/.local/lib/python3.11/site-packages/build/__main__.py", line 149, in _build
+    return _build_in_current_env(srcdir, outdir, distribution, config_settings, skip_dependency_check)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/john/.local/lib/python3.11/site-packages/build/__main__.py", line 129, in _build_in_current_env
+    missing = builder.check_dependencies(distribution, config_settings or {})
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/john/.local/lib/python3.11/site-packages/build/__init__.py", line 252, in check_dependencies
+    dependencies = self.get_requires_for_build(distribution, config_settings).union(self.build_system_requires)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/john/.local/lib/python3.11/site-packages/build/__init__.py", line 240, in get_requires_for_build
+    return set(get_requires(config_settings))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/john/.local/lib/python3.11/site-packages/pyproject_hooks/_impl.py", line 282, in get_requires_for_build_sdist
+    return self._call_hook('get_requires_for_build_sdist', {
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/john/.local/lib/python3.11/site-packages/pyproject_hooks/_impl.py", line 311, in _call_hook
+    self._subprocess_runner(
+  File "/home/john/.local/lib/python3.11/site-packages/pyproject_hooks/_impl.py", line 59, in default_subprocess_runner
+    check_call(cmd, cwd=cwd, env=env)
+  File "/usr/lib/python3.11/subprocess.py", line 408, in check_call
+    retcode = call(*popenargs, **kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 391, in call
+    return p.wait(timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 1264, in wait
+    return self._wait(timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 2053, in _wait
+    (pid, sts) = self._try_wait(0)
+                 ^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 2011, in _try_wait
+    (pid, sts) = os.waitpid(self.pid, wait_flags)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt

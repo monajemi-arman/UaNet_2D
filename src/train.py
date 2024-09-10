@@ -1,7 +1,5 @@
 from __future__ import print_function
 
-from torch.utils.tensorboard import SummaryWriter
-
 import net.model as model
 import time
 from dataset.brain_reader import BrainReader, train_collate
@@ -17,7 +15,7 @@ import os
 import sys
 from tqdm import tqdm
 import traceback
-# from torch.utils.tensorboard import SummaryWriter
+from torch.utils.tensorboard import SummaryWriter
 
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'

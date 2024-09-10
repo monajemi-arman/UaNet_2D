@@ -13,9 +13,9 @@
 
 int cpu_overlap(at::Tensor * boxes1, at::Tensor * boxes2, at::Tensor * overlap) {
     // Check tensor is contiguous and dimension is correct
-    TORCH_CHECK(boxes1->is_contiguous(), "argument#1(boxes1) must be contiguous");
-    TORCH_CHECK(boxes2->is_contiguous(), "argument#2(boxes2) must be contiguous");
-    TORCH_CHECK(overlap->is_contiguous(), "argument#3(overlap) must be contiguous");
+    AT_CHECK(boxes1->is_contiguous(), "argument#1(boxes1) must be contiguous");
+    AT_CHECK(boxes2->is_contiguous(), "argument#2(boxes2) must be contiguous");
+    AT_CHECK(overlap->is_contiguous(), "argument#3(overlap) must be contiguous");
 
 
     // Number of ROIs
@@ -28,9 +28,9 @@ int cpu_overlap(at::Tensor * boxes1, at::Tensor * boxes2, at::Tensor * overlap) 
     long overlap_num = overlap->sizes()[0];
     long overlap_dim = overlap->sizes()[1];
 
-    auto boxes1_flat = boxes1->data_ptr<float>();
-    auto boxes2_flat = boxes2->data_ptr<float>();
-    auto overlap_flat = overlap->data_ptr<float>();
+    auto boxes1_flat = boxes1->data<float>();
+    auto boxes2_flat = boxes2->data<float>();
+    auto overlap_flat = overlap->data<float>();
 
 
     // nominal indices

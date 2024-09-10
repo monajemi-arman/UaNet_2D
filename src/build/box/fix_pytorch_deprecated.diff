@@ -1,0 +1,32 @@
+--- box.cpp.orig    2024-09-10 20:00:00.000000000 +0000
++++ box.cpp    2024-09-10 20:05:00.000000000 +0000
+@@ -12,7 +12,7 @@
+ 
+ int cpu_nms(at::Tensor* keep_out, at::Tensor* boxes, at::Tensor* order, at::Tensor* areas, at::Tensor* suppressed, float nms_overlap_thresh) {
+     // Replacing deprecated AT_CHECK
+-    AT_CHECK(keep_out->is_contiguous(), "argument#1(keep_out) must be contiguous");
++    TORCH_CHECK(keep_out->is_contiguous(), "argument#1(keep_out) must be contiguous");
+ 
+     auto keep_out_flat = keep_out->data_ptr<long>();
+     auto boxes_flat = boxes->data_ptr<float>();
+@@ -25,7 +25,7 @@
+ 
+ int cpu_overlap(at::Tensor* boxes1, at::Tensor* boxes2, at::Tensor* overlap) {
+     // Replacing deprecated AT_CHECK
+-    AT_CHECK(boxes1->is_contiguous(), "argument#1(boxes1) must be contiguous");
++    TORCH_CHECK(boxes1->is_contiguous(), "argument#1(boxes1) must be contiguous");
+ 
+     auto boxes1_flat = boxes1->data_ptr<float>();
+     auto boxes2_flat = boxes2->data_ptr<float>();
+     auto overlap_flat = overlap->data_ptr<float>();
+--- overlap.cpp.orig    2024-09-10 20:00:00.000000000 +0000
++++ overlap.cpp    2024-09-10 20:05:00.000000000 +0000
+@@ -15,7 +15,7 @@
+ 
+ int cpu_overlap(at::Tensor* boxes1, at::Tensor* boxes2, at::Tensor* overlap) {
+     // Replacing deprecated AT_CHECK
+-    AT_CHECK(boxes1->is_contiguous(), "argument#1(boxes1) must be contiguous");
++    TORCH_CHECK(boxes1->is_contiguous(), "argument#1(boxes1) must be contiguous");
+ 
+     auto boxes1_flat = boxes1->data_ptr<float>();
+     auto boxes2_flat = boxes2->data_ptr<float>();

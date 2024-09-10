@@ -12,22 +12,22 @@
 
 int cpu_nms(at::Tensor * keep_out, at::Tensor * num_out, at::Tensor * boxes, at::Tensor * order, at::Tensor * areas, float nms_overlap_thresh) {
     // boxes has to be sorted
-    AT_CHECK(keep_out->is_contiguous(), "argument#1(keep_out) must be contiguous");
-    AT_CHECK(order->is_contiguous(), "argument#4(order) must be contiguous");
-    AT_CHECK(boxes->is_contiguous(), "argument#3(boxes) must be contiguous");
-    AT_CHECK(areas->is_contiguous(), "argument#5(areas) must be contiguous");
+    TORCH_CHECK(keep_out->is_contiguous(), "argument#1(keep_out) must be contiguous");
+    TORCH_CHECK(order->is_contiguous(), "argument#4(order) must be contiguous");
+    TORCH_CHECK(boxes->is_contiguous(), "argument#3(boxes) must be contiguous");
+    TORCH_CHECK(areas->is_contiguous(), "argument#5(areas) must be contiguous");
 
     // Number of ROIs
     long boxes_num = boxes->sizes()[0];
     long boxes_dim = boxes->sizes()[1];
 
-    auto keep_out_flat = keep_out->data<long>();
-    auto boxes_flat = boxes->data<float>();
-    auto order_flat = order->data<long>();
-    auto areas_flat =  areas->data<float>();
+    auto keep_out_flat = keep_out->data_ptr<long>();
+    auto boxes_flat = boxes->data_ptr<float>();
+    auto order_flat = order->data_ptr<long>();
+    auto areas_flat =  areas->data_ptr<float>();
 
     at::Tensor suppressed = at::zeros({boxes_num}, at::kInt);
-    auto suppressed_flat = suppressed.data<int>();
+    auto suppressed_flat = suppressed.data_ptr<int>();
 
     // nominal indices
     int i, j;
@@ -101,7 +101,7 @@ int cpu_nms(at::Tensor * keep_out, at::Tensor * num_out, at::Tensor * boxes, at:
         }
     }
 
-    auto num_out_flat = num_out->data<long>();
+    auto num_out_flat = num_out->data_ptr<long>();
     *num_out_flat = num_to_keep;
 
     return 1;
