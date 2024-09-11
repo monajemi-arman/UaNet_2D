@@ -11,9 +11,76 @@ from torch.nn.parallel import data_parallel
 import random
 from scipy.stats import norm
 import torch.nn as nn
+import matplotlib.pyplot as plt
+import torch
+import numpy as np
 
 bn_momentum = 0.1
 affine = True
+
+
+def visualize_feature_maps_3d(feature_maps, num_maps_to_show=5, slice_index=None):
+    """
+    Visualize 3D feature maps from a convolutional layer.
+
+    Args:
+    feature_maps (torch.Tensor): The output of a convolutional layer (B, C, D, H, W)
+    num_maps_to_show (int): Number of feature maps to display
+    slice_index (int): Index of the slice to show. If None, middle slice is used.
+    """
+    # Create a copy of the tensor to ensure the original tensor is not modified
+    feature_maps_copy = feature_maps.clone()
+
+    # Move the tensor copy to CPU and convert to numpy array
+    feature_maps_copy = feature_maps_copy.cpu().detach().numpy()
+
+    # Get the number of feature maps and dimensions
+    B, C, D, H, W = feature_maps_copy.shape
+
+    # If slice_index is not provided, use the middle slice
+    if slice_index is None:
+        slice_index = D // 2
+
+    # Determine the number of feature maps to show (use all if less than num_maps_to_show)
+    num_maps_to_show = min(num_maps_to_show, C)
+
+    # Set up the plot
+    if num_maps_to_show == 1:
+        fig, ax = plt.subplots(figsize=(5, 5))
+        axs = [ax]  # Wrap the single Axes object in a list for consistent handling
+    else:
+        fig, axs = plt.subplots(1, num_maps_to_show, figsize=(15, 3))
+        if num_maps_to_show > 1:
+            axs = axs.flatten()  # Ensure axs is always a 1D array
+        else:
+            axs = [axs]  # Wrap the single Axes object in a list
+
+    fig.suptitle(f'Feature Maps (Slice {slice_index}/{D})')
+
+    # Plot each feature map
+    for i in range(num_maps_to_show):
+        axs[i].imshow(feature_maps_copy[0, i, slice_index], cmap='viridis')
+        axs[i].axis('off')
+        axs[i].set_title(f'Map {i + 1}')
+
+    plt.tight_layout()
+    plt.show()
+
+
+def visualize_conv_steps_3d(x, conv_layers):
+    """
+    Visualize the output of each convolutional layer for 3D data.
+
+    Args:
+    x (torch.Tensor): The input tensor (B, C, D, H, W)
+    conv_layers (list): List of convolutional layers
+    """
+    for i, layer in enumerate(conv_layers):
+        x = layer(x)
+        print(f"Output shape after layer {i + 1}: {x.shape}")
+        visualize_feature_maps_3d(x)
+
+    return x
 
 
 # Custom classes for using fake 3D image data
@@ -181,20 +248,52 @@ class FeatureNet(nn.Module):
             nn.ReLU(inplace=True))
 
     def forward(self, x):
-        out = self.preBlock(x)
-        out_pool = out
-        out1 = self.forw1(out_pool)
-        out1_pool, _ = self.maxpool2(out1)
-        out2 = self.forw2(out1_pool)
-        out2_pool, _ = self.maxpool3(out2)
-        out3 = self.forw3(out2_pool)
-        out3_pool, _ = self.maxpool4(out3)
-        out4 = self.forw4(out3_pool)
+        if config['debug']['visualize_while_train']:
+            visualize_feature_maps_3d(x, num_maps_to_show=min(5, x.shape[1]), slice_index=x.shape[2] // 2)
 
-        rev3 = self.path1(out4)
-        comb3 = self.back3(torch.cat((rev3, out3), 1))
+            out = self.preBlock(x)
+            visualize_feature_maps_3d(out, num_maps_to_show=min(5, out.shape[1]), slice_index=out.shape[2] // 2)
 
-        return [x, out1, out2, comb3]
+            out_pool, _ = self.maxpool1(out)
+
+            out1 = self.forw1(out_pool)
+            visualize_feature_maps_3d(out1, num_maps_to_show=min(5, out1.shape[1]), slice_index=out1.shape[2] // 2)
+
+            out1_pool, _ = self.maxpool2(out1)
+
+            out2 = self.forw2(out1_pool)
+            visualize_feature_maps_3d(out2, num_maps_to_show=min(5, out2.shape[1]), slice_index=out2.shape[2] // 2)
+
+            out2_pool, _ = self.maxpool3(out2)
+
+            out3 = self.forw3(out2_pool)
+            visualize_feature_maps_3d(out3, num_maps_to_show=min(5, out3.shape[1]), slice_index=out3.shape[2] // 2)
+
+            out3_pool, _ = self.maxpool4(out3)
+
+            out4 = self.forw4(out3_pool)
+            visualize_feature_maps_3d(out4, num_maps_to_show=min(5, out4.shape[1]), slice_index=out4.shape[2] // 2)
+
+            rev3 = self.path1(out4)
+            comb3 = self.back3(torch.cat((rev3, out3), 1))
+
+            return [x, out1, out2, comb3]
+
+        else:
+            out = self.preBlock(x)
+            out_pool = out
+            out1 = self.forw1(out_pool)
+            out1_pool, _ = self.maxpool2(out1)
+            out2 = self.forw2(out1_pool)
+            out2_pool, _ = self.maxpool3(out2)
+            out3 = self.forw3(out2_pool)
+            out3_pool, _ = self.maxpool4(out3)
+            out4 = self.forw4(out3_pool)
+
+            rev3 = self.path1(out4)
+            comb3 = self.back3(torch.cat((rev3, out3), 1))
+
+            return [x, out1, out2, comb3]
 
 
 class RpnHead(nn.Module):

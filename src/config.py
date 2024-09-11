@@ -89,6 +89,7 @@ aspect_ratios = [[1, 2.5, 2.5], [1, 2.5, 5.], [1, 5., 2.5]]
 net_config = {
     # For debug purposes
     'debug': {
+        'visualize_while_train': False,
         'cls_loss_only': True
     },
 

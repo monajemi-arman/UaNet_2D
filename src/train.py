@@ -98,7 +98,7 @@ def main():
     start_epoch = 0
 
     if initial_checkpoint:
-        if input('Resume training? (Y/n): ').lower() == 'y':
+        if os.path.exists('results') and input('Resume training? (Y/n): ').lower() == 'y':
             print('[Loading model from %s]' % initial_checkpoint)
             checkpoint = torch.load(initial_checkpoint)
             start_epoch = checkpoint['epoch']

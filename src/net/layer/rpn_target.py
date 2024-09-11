@@ -129,7 +129,13 @@ def make_one_rpn_target(cfg, mode, input, window, truth_box, truth_label):
             # Calculate weight for class balance
             num_fg = max(1, len(fg_index))
             num_bg = len(bg_index)
-            label_weight[bg_index] = float(num_fg)/num_bg
+            # Safeguard for zero background cases
+            if num_bg == 0:
+                label_weight[bg_index] = 0  # Skip division
+                print("Warning: num_bg is 0, skipping division")
+            else:
+                label_weight[bg_index] = float(num_fg) / num_bg
+            # label_weight[bg_index] = float(num_fg)/num_bg
 
         target_weight[fg_index] = label_weight[fg_index]
     else:
