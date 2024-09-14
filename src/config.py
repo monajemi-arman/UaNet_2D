@@ -94,7 +94,8 @@ net_config = {
     },
 
     # Net configuration
-    'anchors': get_anchors(bases, aspect_ratios),
+    # 'anchors': get_anchors(bases, aspect_ratios),
+    'anchors': [[7, 17.5, 17.5]],
 
     # # of input channel, since it is CT image, we only have one channel
     'chanel': 1,
